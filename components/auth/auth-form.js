@@ -1,33 +1,72 @@
-import { useState } from 'react';
-import classes from './auth-form.module.css';
+import { useState, useRef } from "react";
+import classes from "./auth-form.module.css";
+
+// Helper function that calls an API route to create a new account in our DB
+async function createUser(email, password) {
+  const response = await fetch("/api/auth/signup", {
+    method: "POST",
+    body: JSON.stringify({ email, password }),
+    headers: { "Content-Type": "application/json" },
+  });
+  const data = await response.json();
+  // Error handling in case the fetch request fails
+  if (!response.ok) throw new Error(data.message || "Something went wrong!");
+  return data; // if all goes well, return your parsed data
+}
 
 function AuthForm() {
+  const emailInputRef = useRef();
+  const passwordInputRef = useRef();
   const [isLogin, setIsLogin] = useState(true);
 
   function switchAuthModeHandler() {
     setIsLogin((prevState) => !prevState);
   }
-
+  async function submitHandler(e) {
+    e.preventDefault();
+    const enteredEmail = emailInputRef.current.value;
+    const enteredPassword = passwordInputRef.current.value;
+    // If we're in "log in" mode, sign into your existing account
+    if (isLogin) {
+      // haven't coded a login API route yet
+    }
+    //% If we're not in "log in mode", create an account instead
+    else {
+      try {
+        // skipped email/password validation here
+        const result = await createUser(enteredEmail, enteredPassword);
+        console.log(result); // just log results for now
+      } catch (err) {
+        console.error(err); // just return an error with no feedback for now
+      }
+    }
+  } 
+  // ——————————————————————————————————————————————————————
   return (
     <section className={classes.auth}>
-      <h1>{isLogin ? 'Login' : 'Sign Up'}</h1>
-      <form>
+      <h1>{isLogin ? "Login" : "Sign Up"}</h1>
+      <form onSubmit={submitHandler}>
         <div className={classes.control}>
-          <label htmlFor='email'>Your Email</label>
-          <input type='email' id='email' required />
+          <label htmlFor="email">Your Email</label>
+          <input type="email" id="email" required ref={emailInputRef} />
         </div>
         <div className={classes.control}>
-          <label htmlFor='password'>Your Password</label>
-          <input type='password' id='password' required />
+          <label htmlFor="password">Your Password</label>
+          <input
+            type="password"
+            id="password"
+            required
+            ref={passwordInputRef}
+          />
         </div>
         <div className={classes.actions}>
-          <button>{isLogin ? 'Login' : 'Create Account'}</button>
+          <button>{isLogin ? "Login" : "Create Account"}</button>
           <button
-            type='button'
+            type="button"
             className={classes.toggle}
             onClick={switchAuthModeHandler}
           >
-            {isLogin ? 'Create new account' : 'Login with existing account'}
+            {isLogin ? "Create new account" : "Login with existing account"}
           </button>
         </div>
       </form>
