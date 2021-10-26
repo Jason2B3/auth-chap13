@@ -1,0 +1,13 @@
+LESSON 218
+
+helpers/db.js 
+contains a function that helps us connect to a database
+
+helpers/auth.js
+encrypt function encrypts the password we feed it
+
+pages/api/auth/signup
+an API route that creates a new account with the email and password typed in pages/auth.js
+that page uses <AuthForm /> from components/auth/auth-form.js
+
+————————————————————————————————————————————————————————————————————————————————————————
