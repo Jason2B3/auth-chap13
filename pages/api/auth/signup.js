@@ -11,7 +11,6 @@ export default async function handler(req, res) {
     const db = client.db();
     // Check if a user with the submitted email exists already
     const existingUser = await db.collection("users").findOne({ email: email });
-    console.log(existingUser);
     if (existingUser) {
       res
         .status(422)
