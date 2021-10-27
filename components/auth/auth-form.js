@@ -1,4 +1,5 @@
 import { useState, useRef } from "react";
+import { signIn } from "next-auth/client";
 import classes from "./auth-form.module.css";
 
 // Helper function that calls an API route to create a new account in our DB
@@ -26,11 +27,18 @@ function AuthForm() {
     e.preventDefault();
     const enteredEmail = emailInputRef.current.value;
     const enteredPassword = passwordInputRef.current.value;
-    // If we're in "log in" mode, sign into your existing account
+    //% If we're in "log in" mode, sign into your existing account
     if (isLogin) {
-      // haven't coded a login API route yet
+      const result = await signIn("credentials", {
+        redirect: false,
+        email: enteredEmail, // will equal credentials.email in the backend
+        password: enteredPassword, // will equal credentials.password in the backend
+      });
+      console.log(result)
+      //! Must now find a way to save our authenticated state (next few lessons)
+      //! Context API and Redux won't cut it since they reset on reload
     }
-    //% If we're not in "log in mode", create an account instead
+    // If we're not in "log in mode", create an account instead
     else {
       try {
         // skipped email/password validation here
@@ -40,7 +48,7 @@ function AuthForm() {
         console.error(err); // just return an error with no feedback for now
       }
     }
-  } 
+  }
   // ——————————————————————————————————————————————————————
   return (
     <section className={classes.auth}>
