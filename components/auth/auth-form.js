@@ -34,7 +34,7 @@ function AuthForm() {
         email: enteredEmail, // will equal credentials.email in the backend
         password: enteredPassword, // will equal credentials.password in the backend
       });
-      console.log(result)
+      console.log(result);
       //! Must now find a way to save our authenticated state (next few lessons)
       //! Context API and Redux won't cut it since they reset on reload
     }
