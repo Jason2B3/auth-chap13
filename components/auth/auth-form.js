@@ -1,5 +1,6 @@
 import { useState, useRef } from "react";
 import { signIn } from "next-auth/client";
+import { useRouter } from "next/router";
 import classes from "./auth-form.module.css";
 
 // Helper function that calls an API route to create a new account in our DB
@@ -15,7 +16,8 @@ async function createUser(email, password) {
   return data; // if all goes well, return your parsed data
 }
 
-function AuthForm() {
+function AuthForm(props) {
+  const router = useRouter();
   const emailInputRef = useRef();
   const passwordInputRef = useRef();
   const [isLogin, setIsLogin] = useState(true);
@@ -35,7 +37,8 @@ function AuthForm() {
         password: enteredPassword, // will equal credentials.password in the backend
       });
       console.log(result);
-
+      // Redirect to Profile Page with no way back
+      router.replace("/profile");
     }
     // If we're not in "log in mode", create an account instead
     else {
@@ -43,6 +46,8 @@ function AuthForm() {
         // skipped email/password validation here
         const result = await createUser(enteredEmail, enteredPassword);
         console.log(result); // just log results for now
+        // Redirect to Profile Page
+        router.replace("/profile");
       } catch (err) {
         console.error(err); // just return an error with no feedback for now
       }
