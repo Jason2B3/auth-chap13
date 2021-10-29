@@ -4,7 +4,7 @@ import UserProfile from "../components/profile/user-profile";
 export async function getServerSideProps(context) {
   // session = falsy if we aren't logged in, and equals a session obj if we are
   const session = await getSession({ req: context.req });
-  console.log(session) //! equals null because we don't have a session
+  console.log(session) 
   // If the user is not logged in, redirect them to "/auth"
   if (!session) {
     return {
@@ -19,8 +19,9 @@ export async function getServerSideProps(context) {
   return { props: { session } };
 }
 
-function ProfilePage() {
+export default function ProfilePage({session}) {
+  console.log(Date.parse(session.expires)) // unix expiry time
   return <UserProfile />;
 }
 
-export default ProfilePage;
+

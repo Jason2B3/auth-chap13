@@ -83,6 +83,9 @@ function AuthForm(props) {
           >
             {isLogin ? "Create new account" : "Login with existing account"}
           </button>
+          <button className={classes.toggle}>
+            {isLogin && "Forgot your password?"}
+          </button>
         </div>
       </form>
     </section>
