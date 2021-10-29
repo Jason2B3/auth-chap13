@@ -36,9 +36,14 @@ export default NextAuth({
         }
         // If password match, the operation's a success so return an object
         client.close();
-        return { email: user.email };
+        return { email: user.email }; // USE TO ACCESS THE CURRENTLY LOGGED IN EMAIL
         // Place the user email inside- not the entire user obj (insecure)
       },
     }),
   ],
 });
+
+/* What the following line does for us:    return { email: user.email };
+IN OUR BACKEND CODE, WE CAN ACCESS THE EMAIL WE'RE CURRENTLY LOGGED IN WITH
+const session = await getSession({ req: req });
+*/

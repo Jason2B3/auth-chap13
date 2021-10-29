@@ -6,9 +6,11 @@ export async function encrypt(password) {
   const hashed = await hash(password, 12); // 12 is considered good
   return hashed;
 }
+// await encrypt(newPassword);  Must await for this to work!
 
 // See if arg 1's regularly typed password matches arg 2's which is encrypted
 export async function verifyPassword(password, hashedVersion) {
   const isValid = await compare(password, hashedVersion);
-  return isValid; // Boolean
+  return isValid; // T/F
 }
+// await verifyPassword(password, hashedVersion);  Must await for this to work!
