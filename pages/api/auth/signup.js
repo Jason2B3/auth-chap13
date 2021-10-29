@@ -24,7 +24,8 @@ export default async function handler(req, res) {
       password: hashedPassword, // is hashed before insertion
     });
     client.close();
-    res.status(201).json({ message: "Created user!" });
+    res.status(201).json({ message: "Created user!" }); 
+    
     //! WARNING: No error handling here yet
   }
 }
