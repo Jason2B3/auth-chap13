@@ -36,9 +36,10 @@ function AuthForm(props) {
         email: enteredEmail, // will equal credentials.email in the backend
         password: enteredPassword, // will equal credentials.password in the backend
       });
-      console.log(result);
-      // Redirect to Profile Page with no way back
-      router.replace("/profile");
+      if (!result.error) {
+        console.log(result);
+        router.replace("/profile");
+      }
     }
     // If we're not in "log in mode", create an account instead
     else {
@@ -46,8 +47,7 @@ function AuthForm(props) {
         // skipped email/password validation here
         const result = await createUser(enteredEmail, enteredPassword);
         console.log(result); // just log results for now
-        // Redirect to Profile Page
-        router.replace("/profile");
+        // Add Auto-login feature HERE
       } catch (err) {
         console.error(err); // just return an error with no feedback for now
       }

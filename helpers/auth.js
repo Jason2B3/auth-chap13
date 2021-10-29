@@ -1,14 +1,14 @@
 import { compare, hash } from "bcryptjs";
 
-// Encrypt a password before we store it in the DB
-export async function encrypt(password) {
+// Hash a password before we store it in the DB
+export async function hashPW(password) {
   // the higher the num, the more secure, but the slower this function takes
   const hashed = await hash(password, 12); // 12 is considered good
   return hashed;
 }
-// await encrypt(newPassword);  Must await for this to work!
+// await hash(newPassword);  Must await for this to work!
 
-// See if arg 1's regularly typed password matches arg 2's which is encrypted
+// See if arg 1's regularly typed password matches arg 2's which is hashed
 export async function verifyPassword(password, hashedVersion) {
   const isValid = await compare(password, hashedVersion);
   return isValid; // T/F

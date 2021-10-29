@@ -4,6 +4,7 @@ import UserProfile from "../components/profile/user-profile";
 export async function getServerSideProps(context) {
   // session = falsy if we aren't logged in, and equals a session obj if we are
   const session = await getSession({ req: context.req });
+  console.log(session) //! equals null because we don't have a session
   // If the user is not logged in, redirect them to "/auth"
   if (!session) {
     return {

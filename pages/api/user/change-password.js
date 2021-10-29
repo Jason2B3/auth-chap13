@@ -1,7 +1,7 @@
 //# API Route that allows the authenticated to change their account password
 import { getSession } from "next-auth/client";
 import { connectToDatabase } from "../../../helpers/db";
-import { encrypt, verifyPassword } from "../../../helpers/auth";
+import { hashPW, verifyPassword } from "../../../helpers/auth";
 export default async function handler(req, res) {
   // Only let this run if a user makes a PATCH request
   if (req.method !== "PATCH") return;
@@ -28,7 +28,7 @@ export default async function handler(req, res) {
     res.status(405).json({ message: "Something went wrong!" });
     return; // if account's not found, end the route here
   }
-  // If we find it, compare our oldPassword submission to the encryted db one
+  // If we find it, compare our oldPassword submission to the hashed db one
   const passwordsMatch = await verifyPassword(
     oldPassword,
     userAccount.password
@@ -37,8 +37,8 @@ export default async function handler(req, res) {
     res.status(408).json({ message: "Old password is not correct" });
     return; // if password's wrong, end the route here
   }
-  // If passwords match, encrypt the newPassword and replace the old one
-  const hashedNewPassword = await encrypt(newPassword);
+  // If passwords match, hash the newPassword and replace the old one
+  const hashedNewPassword = await hashPW(newPassword);
   console.log(hashedNewPassword) // aparently an object
   await db
     .collection("users")
